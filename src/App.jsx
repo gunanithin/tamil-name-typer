@@ -89,7 +89,7 @@ function App() {
       <div className="glass-panel">
         <h1 className="title">
           Tamil Name Typer<br />
-          <span style={{fontSize: '0.5em', fontWeight: 500, letterSpacing: 'normal'}}>தமிழ் பெயர் தட்டச்சு</span>
+          <span style={{fontSize: '0.55em', fontWeight: 800, letterSpacing: 'normal'}}>தமிழ் பெயர் தட்டச்சு</span>
         </h1>
         <p className="subtitle">
           Tap the mic and say a name in Tamil<br />
