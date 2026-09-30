@@ -40,7 +40,7 @@ function App() {
           const englishTranslation = await transliterateTamilToEnglish(transcript, API_KEY);
           setEnglishName(englishTranslation);
         } catch (e) {
-          setError(e.message || 'Transliteration failed.');
+          setError(e.message || 'Transliteration failed. (மாற்றமைத்தல் தோல்வியடைந்தது)');
         } finally {
           setIsProcessing(false);
         }
@@ -48,7 +48,7 @@ function App() {
 
       recognitionRef.current.onerror = (event) => {
         setIsListening(false);
-        setError('Could not hear clearly. Please try again.');
+        setError('Could not hear clearly. Please try again. (தெளிவாக கேட்கவில்லை. மீண்டும் முயற்சிக்கவும்.)');
         console.error('Speech recognition error', event.error);
       };
 
@@ -56,7 +56,7 @@ function App() {
         setIsListening(false);
       };
     } else {
-      setError('Your browser does not support voice recognition. Please use Chrome or Safari.');
+      setError('Your browser does not support voice recognition. Please use Chrome or Safari. (உங்கள் உலாவி குரல் அங்கீகாரத்தை ஆதரிக்கவில்லை.)');
     }
   }, []);
 
@@ -87,8 +87,14 @@ function App() {
   return (
     <div className="app-container">
       <div className="glass-panel">
-        <h1 className="title">Tamil Name Typer</h1>
-        <p className="subtitle">Tap the mic and say a name in Tamil</p>
+        <h1 className="title">
+          Tamil Name Typer<br />
+          <span style={{fontSize: '0.5em', fontWeight: 500, letterSpacing: 'normal'}}>தமிழ் பெயர் தட்டச்சு</span>
+        </h1>
+        <p className="subtitle">
+          Tap the mic and say a name in Tamil<br />
+          மைக்-ஐ அழுத்தி தமிழில் பெயரைச் சொல்லவும்
+        </p>
 
         <div className="mic-button-container">
           {isListening && <div className="ripple"></div>}
@@ -114,12 +120,12 @@ function App() {
                 onClick={copyToClipboard}
               >
                 {copied ? <Check size={18} /> : <Copy size={18} />}
-                {copied ? 'Copied!' : 'Copy Name'}
+                {copied ? 'Copied! (நகலெடுக்கப்பட்டது!)' : 'Copy Name (பெயரை நகலெடு)'}
               </button>
             </>
           ) : (
             <p className="instruction-text">
-              {isProcessing ? 'Processing AI transliteration...' : isListening ? 'Listening...' : 'Waiting for voice...'}
+              {isProcessing ? 'Processing... (செயலாக்குகிறது...)' : isListening ? 'Listening... (கவனிக்கிறது...)' : 'Waiting for voice... (தொடங்க மைக்கை அழுத்தவும்)'}
             </p>
           )}
         </div>
