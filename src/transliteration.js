@@ -63,7 +63,7 @@ export const transliterateTamilToEnglish = async (tamilText, apiKey = '') => {
   if (apiKey) {
     try {
       const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
+      const model = genAI.getGenerativeModel({ model: "gemini-flash-lite-latest" });
       const prompt = `You are a strict transliteration assistant. Transliterate the following Tamil name to English accurately, recognizing common Indian names like Gopi, Gunanithi, Karthik etc. Do not translate the meaning. Return ONLY the English name, nothing else. Name: ${tamilText}`;
       const result = await model.generateContent(prompt);
       const response = await result.response;
@@ -83,7 +83,7 @@ export const transliterateTamilToEnglish = async (tamilText, apiKey = '') => {
   // Fallback: A basic transliteration mapping (can be expanded)
   // This is a simplified version and might not be 100% grammatically perfect for all edge cases
   // but provides a readable English spelling.
-  
+
   let text = tamilText;
 
   // 1. Map independent vowels
@@ -91,7 +91,7 @@ export const transliterateTamilToEnglish = async (tamilText, apiKey = '') => {
     'அ': 'a', 'ஆ': 'aa', 'இ': 'i', 'ஈ': 'ee', 'உ': 'u', 'ஊ': 'oo',
     'எ': 'e', 'ஏ': 'e', 'ஐ': 'ai', 'ஒ': 'o', 'ஓ': 'o', 'ஔ': 'au'
   };
-  
+
   // 2. Map consonants (with implicit 'a' sound)
   const consonants = {
     'க': 'ka', 'ங': 'nga', 'ச': 'sa', 'ஞ': 'nya', 'ட': 'ta', 'ண': 'na',
@@ -99,7 +99,7 @@ export const transliterateTamilToEnglish = async (tamilText, apiKey = '') => {
     'ல': 'la', 'வ': 'va', 'ழ': 'zha', 'ள': 'la', 'ற': 'ra', 'ன': 'na',
     'ஷ': 'sha', 'ஸ': 'sa', 'ஹ': 'ha', 'ஜ': 'ja'
   };
-  
+
   // 3. Map vowel markers (dependent vowels)
   const vowelMarkers = {
     'ா': 'aa', 'ி': 'i', 'ீ': 'ee', 'ு': 'u', 'ூ': 'oo',
@@ -124,10 +124,10 @@ export const transliterateTamilToEnglish = async (tamilText, apiKey = '') => {
   // Actually a simpler way for fallback is to just replace the consonant 'a' ending 
   // with the respective vowel ending. 
   // For simplicity in this regex, we'll replace the full consonant and then fix the vowel markers.
-  
+
   for (const [consonant, englishBase] of Object.entries(consonants)) {
     for (const [marker, englishVowel] of Object.entries(vowelMarkers)) {
-       text = text.replaceAll(consonant + marker, englishBase.slice(0, -1) + englishVowel);
+      text = text.replaceAll(consonant + marker, englishBase.slice(0, -1) + englishVowel);
     }
     // Also replace standalone consonant with 'a' sound
     text = text.replaceAll(consonant, englishBase);
